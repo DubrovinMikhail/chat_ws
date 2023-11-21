@@ -16,7 +16,6 @@ const wsServer = new WS.Server({
   server,
 });
 
-const clients = {};
 const chat = [];
 const usernames = new Set();
 
@@ -34,18 +33,18 @@ wsServer.on("connection", (ws) => {
   ws.on("message", (rawMessage) => {
     const { type, username, message, created, time } = JSON.parse(rawMessage);
     if (type === "username") {
-      // Validate the username
+      // Валидируем username
       if (usernames.has(username)) {
-        // Username already exists, send a validation response
+        // Username уже существует, отправляем validation response
         ws.send(
           JSON.stringify({
             type: "usernameValidation",
             isValid: false,
             message: "Username already taken",
           })
-        );
+        ); 
       } else {
-        // Username is valid, store it in the WebSocket client object and add to the usernames list
+        // Username валиден, сохраняем его в WebSocket client object и добавляем в Set usernames
         ws.username = username;
         usernames.add(username);
         ws.send(
@@ -77,7 +76,6 @@ wsServer.on("connection", (ws) => {
   });
 
   ws.on("close", () => {
-    delete clients[id];
     if (ws.username) {
       // Удаляем юзернеймы при отключении
       usernames.delete(ws.username);
