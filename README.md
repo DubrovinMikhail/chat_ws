@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/vx18qhhpg7jshjtc?svg=true)](https://ci.appveyor.com/project/DubrovinMikhail/chat-ws)
